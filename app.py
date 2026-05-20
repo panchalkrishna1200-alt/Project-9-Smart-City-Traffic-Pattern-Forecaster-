@@ -93,7 +93,7 @@ with st.sidebar:
 # ── Helper functions ──────────────────────────────────────────────────────────
 @st.cache_data
 def load_data(file):
-    df = pd.read_csv(file)
+    df = pd.read_csv(train_aWnotuB.csv)
     df.columns = [c.strip() for c in df.columns]
     # Flexible datetime parsing — infer_datetime_format removed in pandas 2.x
     dt_cols = [c for c in df.columns if 'date' in c.lower() or 'time' in c.lower()]
