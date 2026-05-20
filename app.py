@@ -77,8 +77,8 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("### 📂 Upload Data")
-    train_file = st.file_uploader("Training CSV", type="csv", key="train")
-    test_file  = st.file_uploader("Test CSV",     type="csv", key="test")
+    train_file = st.file_uploader("train_aWnotuB.csv", type="csv", key="train")
+    test_file  = st.file_uploader("test.csv",     type="csv", key="test")
 
     st.markdown("---")
     st.markdown("### ⚙️ Forecast Settings")
