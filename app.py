@@ -93,7 +93,7 @@ with st.sidebar:
 # ── Helper functions ──────────────────────────────────────────────────────────
 @st.cache_data
 def load_data(file):
-    df = pd.read_csv(train_aWnotuB.csv)
+    df = pd.read_csv(file)
     df.columns = [c.strip() for c in df.columns]
     # Flexible datetime parsing — infer_datetime_format removed in pandas 2.x
     dt_cols = [c for c in df.columns if 'date' in c.lower() or 'time' in c.lower()]
@@ -151,7 +151,7 @@ if train_file is None:
     st.markdown("### 🔬 Demo Mode — Synthetic Data")
     np.random.seed(42)
     n = 24 * 90  # 90 days hourly
-    dates = pd.date_range("2021-01-01", periods=n, freq="H")
+    dates = pd.date_range("2021-01-01", periods=n, freq="h")
     demo_rows = []
     for j in range(1, 5):
         base = 20 + j * 5
@@ -202,7 +202,7 @@ fig, ax = plt.subplots(figsize=(14, 4), facecolor='#0f1117')
 ax.set_facecolor('#0f1117')
  
 for i, j in enumerate(junctions):
-    sub = df_train[df_train[junc_col] == j].set_index(dt_col)[veh_col].resample('H').mean()
+    sub = df_train[df_train[junc_col] == j].set_index(dt_col)[veh_col].resample('h').mean()
     ax.plot(sub.index, sub.values, color=COLORS[i % 4], lw=1.2, alpha=0.85, label=f'Junction {j}')
  
 ax.set_xlabel('Date', color='#94a3b8')
@@ -276,12 +276,12 @@ fig4, ax4 = plt.subplots(figsize=(14, 5), facecolor='#0f1117')
 ax4.set_facecolor('#0f1117')
  
 for i, j in enumerate(junctions):
-    sub = df_train[df_train[junc_col] == j].set_index(dt_col)[veh_col].resample('H').mean().dropna()
+    sub = df_train[df_train[junc_col] == j].set_index(dt_col)[veh_col].resample('h').mean().dropna()
     history_tail = sub.tail(72)  # last 3 days
  
     forecast_vals = get_forecast(sub, model_choice, forecast_hours)
     last_dt = sub.index[-1]
-    forecast_dates = pd.date_range(last_dt + timedelta(hours=1), periods=forecast_hours, freq='H')
+    forecast_dates = pd.date_range(last_dt + timedelta(hours=1), periods=forecast_hours, freq='h')
  
     color = COLORS[i % 4]
     ax4.plot(history_tail.index, history_tail.values, color=color, lw=1.5, alpha=0.9, label=f'J{j} History')
@@ -309,7 +309,7 @@ with st.expander("📋 Forecast Values Table"):
     forecast_df_rows = []
     last_dt = df_train[dt_col].max()
     for j in junctions:
-        sub = df_train[df_train[junc_col] == j].set_index(dt_col)[veh_col].resample('H').mean().dropna()
+        sub = df_train[df_train[junc_col] == j].set_index(dt_col)[veh_col].resample('h').mean().dropna()
         fvals = get_forecast(sub, model_choice, forecast_hours)
         for h, v in enumerate(fvals):
             forecast_df_rows.append({
